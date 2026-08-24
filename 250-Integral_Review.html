@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>251-Integral_Review</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>250-Integral_Review</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -7307,7 +7307,12 @@ MathJax = {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7404,7 +7409,8 @@ MathJax = {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7430,6 +7436,285 @@ MathJax = {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7486,13 +7771,127 @@ MathJax = {
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <main>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d611b989-4499-46cf-a1d2-5b813f81ddea">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Math-250-Differentiation/Integration-review">Math 250 Differentiation/Integration review<a class="anchor-link" href="#Math-250-Differentiation/Integration-review">¶</a></h1><h2 id="Differentiation-properties">Differentiation properties<a class="anchor-link" href="#Differentiation-properties">¶</a></h2><ul>
+<li><p>Definition of the derivative: $\displaystyle f'(x) = \lim_{h \to 0} \frac{f(x+h)-f(x)}{h}$ (when this limit exists for a particular value of $x$ we say $f$ is differentiable at that particular value of $x$)</p>
+</li>
+<li><p>Derivative of sums/differences: $\displaystyle\frac{d}{dx} \Big(f(x) \pm g(x) \Big) = f'(x) \pm g'(x)$</p>
+</li>
+<li><p>Constant factors: $\displaystyle\frac{d}{dx}\Big(c f(x)\Big) = c f'(x)$</p>
+</li>
+<li><p>Product rule: $\displaystyle\frac{d}{dx} \Big( f(x)g(x)\Big) = f'(x)g(x)+f(x)g'(x)$</p>
+</li>
+<li><p>Quotient rule: $\displaystyle\frac{d}{dx} \left( \frac{f(x)}{g(x)} \right)= \frac{g(x)f'(x)-f(x)g'(x)}{g(x)^2}$</p>
+</li>
+<li><p>Chain rule: $\displaystyle\frac{d}{dx} f\big(g(x)\big) = f'\big(g(x)\big)g'(x)$</p>
+</li>
+</ul>
+<h2 id="Derivatives-of-standard-functions">Derivatives of standard functions<a class="anchor-link" href="#Derivatives-of-standard-functions">¶</a></h2><ul>
+<li><p>$\displaystyle\frac{d}{dx} c = 0$</p>
+</li>
+<li><p>$\displaystyle\frac{d}{dx} x = 1$</p>
+</li>
+<li><p>$\displaystyle\frac{d}{dx} x^p = px^{p-1}$</p>
+</li>
+<li><p>$\displaystyle\frac{d}{dx} e^x = e^x$</p>
+</li>
+<li><p>$\displaystyle\frac{d}{dx} \sin x = \cos x$</p>
+</li>
+<li><p>$\displaystyle\frac{d}{dx} \cos x = - \sin x$</p>
+</li>
+<li><p>$\displaystyle\frac{d}{dx} \tan x = \sec^2 x$ (you can quickly obtain this by the quotient rule)</p>
+</li>
+<li><p>$\displaystyle\frac{d}{dx} \ln x = \frac 1 x$</p>
+</li>
+<li><p>$\displaystyle\frac{d}{dx} \arctan x = \frac{1}{1+x^2}$</p>
+</li>
+</ul>
+<h2 id="Integration-properties">Integration properties<a class="anchor-link" href="#Integration-properties">¶</a></h2><ul>
+<li>$\displaystyle\int_a^b f(x)~dx = \lim_{n \to \infty} \sum_{n=1}^\infty f(x_n^\ast)\, \Delta x$ gives the net, signed area between $y=0$ and $y=f(x)$ between $x=a$ and $x=b$.</li>
+</ul>
+<p>(The definite integral is the limit of any Riemann sum as the number of subdivisions $n \to \infty$, this limit is guaranteed to exist when $f$ is continuous on the interval $[a,b]$.)</p>
+<ul>
+<li>$F(x)$ is an anti-derivative of $f(x)$ if $\displaystyle\frac{d}{dx} F(x) = f(x)$.</li>
+<li>The indefinite integral $\displaystyle\int f(x)~dx$ is the family of all possible anti-derivatives of $f$.</li>
+</ul>
+<p>By the Mean Value Theorem, any two anti-derivatives of a function differ by an additive constant $C$.</p>
+<ul>
+<li>Fundamental Theorem of Calculus: If $f$ is continuous on $[a,b]$ and $F$ is any anti-derivative of $f$ that is, $F'(x) = f(x)$), then $\displaystyle\int_a^b f(x)~dx = F(b)-F(a)$.</li>
+<li>Integration of sums and differences: $\displaystyle\int \Big( f(x) \pm g(x) \Big)~dx = \int f(x)~dx \pm \int g(x)~dx$.</li>
+<li>Integration of constant factors: $\displaystyle\int cf(x)~dx = c\int f(x)~dx$.</li>
+<li>There is no "product rule" that we can use for general integrals $\displaystyle\int f(x)g(x)~dx$ !</li>
+<li>There is no "quotient rule" that we can use for general integrals $\displaystyle\int \frac{f(x)}{g(x)}~dx$ !</li>
+<li>There is no "chain rule" that we can use for general integrals $\displaystyle\int f\big(g(x)\big)~dx$ !</li>
+</ul>
+<h2 id="Integrals-of-standard-functions">Integrals of standard functions<a class="anchor-link" href="#Integrals-of-standard-functions">¶</a></h2><ul>
+<li><p>Power rule:
+$$ \int x^p ~dx = \left\{ \begin{array}{rl} \dfrac{x^{p+1}}{p+1} + C, &amp; p \neq -1 \\ \\ \ln|x| + C, &amp; p = -1 \end{array} \right.$$</p>
+</li>
+<li><p>$\displaystyle\int e^x~dx = e^x + C$</p>
+</li>
+<li><p>$\displaystyle\int \sin x~dx = -\cos x + C$</p>
+</li>
+<li><p>$\displaystyle\int \cos x~dx = \sin x + C$</p>
+</li>
+<li><p>$\displaystyle\int \sec^2 x~dx = \tan x + C$</p>
+</li>
+<li><p>$\displaystyle\int \frac{1}{1+x^2}~dx = \arctan x + C$</p>
+</li>
+</ul>
+<h2 id="Substitution">Substitution<a class="anchor-link" href="#Substitution">¶</a></h2><p>$$ \int f\big(g(x)\big) \underbrace{g'(x) \, dx} = \int f(u) \, du.$$</p>
+<p>This is when you recognize a "chain rule pattern" --- an inside function $u= g(x)$ and its derivative $du = g'(x) \, dx$.</p>
+<p>Picking $u=x^2$ works for integrals such as</p>
+<p>$$ \int 2x e^{x^2} \, dx, \qquad \int x \sin(x^2) \, dx, \qquad \int 5x \cos(x^2) \, dx.$$</p>
+<h2 id="Ingtegration-by-parts">Ingtegration by parts<a class="anchor-link" href="#Ingtegration-by-parts">¶</a></h2><p>$$ \int u \, dv = uv - \int v \, du.$$</p>
+<p>The idea is that we "trade" the integral $\int u \, dv$ that we don't know how to do for an integral $\int v \, du$ that we do know how to do.</p>
+<p>In this process, you differentiate $u$ to obtain $du$ and integrate $dv$ to obtain $v$.</p>
+<p>Picking $u=x$ works for integrals such as</p>
+<p>$$ \int 3x e^{4x} \, dx, \qquad \int 5x \cos(2x) \, dx, \qquad \int x \sin(3x) \, dx.$$</p>
+<p>Picking $u = \ln x$ works for integrals such as</p>
+<p>$$ \int x^2 \ln x \, dx, \qquad \int \ln x \, dx.$$</p>
+<h2 id="Partial-fractions">Partial fractions<a class="anchor-link" href="#Partial-fractions">¶</a></h2><p>For integrating, we'll focus on partial fractions with simple linear factors in the denominator.  We'll need some of the more complicated partial fraction cases later when dealing with Laplace transforms, but we won't need to do integrals of those cases.</p>
+<p>For example, to integrate</p>
+<p>$$ \int \dfrac{x+1}{x^2-5x+6} \, dx,$$</p>
+<p>we use the fact that this "common denominator" $x^2-5x+6 = (x-2)(x-3)$ results from adding fractions with simpler denominators: for constants $A,B$ we can decompose</p>
+<p>$$ \dfrac{x+1}{x^2-5x+6} = \dfrac{x+1}{(x-2)(x-3)} = \dfrac{A}{x-2} + \dfrac{B}{x-3}.$$</p>
+<p>We multiply by the original denominator and match coefficients on like terms:</p>
+<p>\begin{align*}
+1x+1 &amp;= (x-2)(x-3) \left[ \dfrac{A}{x-2} + \dfrac{B}{x-3} \right] \\
+&amp;= A(x-3) + B(x-2) \\
+&amp;= Ax-3A + Bx - 2B \\
+&amp;= (A+B)x + (-3A-2B).
+\end{align*}</p>
+<p>The only way this could be true for all $x$ is if the corresponding coefficients match (two linear functions are only the same if both the slope and intercept are the same):</p>
+<p>$$ \left\{ \begin{array}{rl} A + B &amp;= 1 \\ -3A-2B &amp;= 1 \end{array} \right. .$$</p>
+<p>Solve this linear system of equations however you like.  For exmaple, adding twice the first equation to the second (to eliminate the $B$s) yields  $-A = 3$, and so $A = -3$ and then $B= 4$.  Then, we can proceed with</p>
+<p>$$ \int \dfrac{x+1}{x^2-5x+6} \, dx = \int \left( \dfrac{-3}{x-2} + \dfrac{4}{x-3} \right) \,dx = \cdots = -3 \ln|x-2| + 4 \ln|x-3| + C.$$</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0832c11f-b4b6-4d24-a23d-3459b2b5bfe7">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Practice-problems">Practice problems<a class="anchor-link" href="#Practice-problems">¶</a></h2>
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7ba8388f-c5d9-451b-9e2a-cc7a30b6a031">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Math-251-Integration-review">Math 251 Integration review<a class="anchor-link" href="#Math-251-Integration-review">¶</a></h1><h2 id="Basic-integral-formulas,-substitution,-parts,-partial-fractions-for-simple-linear-factors-in-denominator">Basic integral formulas, substitution, parts, partial fractions for simple linear factors in denominator<a class="anchor-link" href="#Basic-integral-formulas,-substitution,-parts,-partial-fractions-for-simple-linear-factors-in-denominator">¶</a></h2><ol>
+<ol>
 <li><p>$\displaystyle \int (4x -5)^{6}~dx$</p>
 <details>
 <summary><span style="color:red">Solution</span></summary>
@@ -7972,20 +8371,6 @@ Then, $A=-1$ and then the first equation means $B=2$.  Therefore, we have
 </details>
 </li>
 </ol>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=24571ae9-d656-4844-9e35-26c33b568d3f">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-</div>
 </div>
 </div>
 </div>
