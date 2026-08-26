@@ -8232,7 +8232,7 @@ The key here is to remember $e^{2x} = (e^x)^2$, so if we look at it as
 <details>
 <summary><span style="color:red">Solution</span></summary>
     We have the inside function for substitution $w=x^2$ along with $dw = 2x \;dx$, and so $\frac{1}{2}dw = x\;dx$.   The key idea is to recognize $x^3 = x^2 \; x$ and so
-     $$ \int x^3 \sin(x^2)~dx = \int x^2 \sin(x^2) \underbracket{\, x ~dx\,} = \frac{1}{2} \int w \sin(w)~dw.$$
+     $$ \int x^3 \sin(x^2)~dx = \int x^2 \sin(x^2) \underbrace{\, x ~dx\,} = \frac{1}{2} \int w \sin(w)~dw.$$
      (I picked $w$ since I knew we were going to do parts in a moment and didn't want to confuse with the $u,v$ names we're used to when doing parts.  Do whatever you need to do to not make a silly mistake from notation.) From here we do parts with $u=w, dv = \sin w \; dw$, and so $du = dw$ and $v= - \cos w$, giving us
      $$ \frac{1}{2} \left(-w \cos w - \int (- \cos w)~dw \right) = -\frac{w}{2} \cos w + \frac{\sin w}{2} + C =\fbox{$-\dfrac{x^2}{2}\cos(x^2) + \dfrac{1}{2} \sin(x^2)+C$}.$$
  </details>
