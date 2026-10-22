@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>250-hw7-f26</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script><script>
+<title>250-HW7-f26</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script><script>
 (function() {
   function addWidgetsRenderer() {
     var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
@@ -7328,6 +7328,7 @@ MathJax = {
 </script>
 <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 
+
 <!-- End of mathjax configuration --><script type="module">
   document.addEventListener("DOMContentLoaded", async () => {
     const diagrams = document.querySelectorAll(".jp-Mermaid > pre.mermaid");
@@ -7919,30 +7920,29 @@ for all $n=1, 2, ...$.  Remember $\sin\left( \frac{\pi}{2} \right) = \sin\left( 
    The initial condition $x'(0) = -2$ means $-2 = -4 + c_2$ and so $c_2 = 2$, meaning
    $\boxed{x(t) = 2e^{-2t} \cos t + 2e^{-2t} \sin t}$.<br/><br/>
    B. Without the "polar trig identity":
-
-</details></li>
+   We set $x'(t) = 0$ (use the expression for $x'(t)$ obtained earlier with $c_2 = 2$) to see
+   $$ x'(t) = -6e^{-2t} \sin t - 2e^{-2t} \cos t = 0 \implies -6\sin t = 2\cos t \implies \tan t = -\frac 1 3.$$
+   This occurs for $t = \arctan\left( - \frac 1 3 \right) + n\pi$, for $n =1, 2, ...$. (If $n=0$ then $t&lt;0$ is before the mass starts moving.  Remember $- \frac \pi 2 &lt; \arctan(x) &lt; 0$ for $x&lt;0$, and $0 &lt; \arctan(x) &lt; \frac \pi 2$ for $x&gt;0$.)<br/><br/>
+   Since the mass starts out stretched ($x(0) = 2&gt;0$) and moving towards equilibrium ($x'(0) = -2 &lt; 0$), the first positive time at which $x'(t)=0$ will correspond to a local minimum.<br/><br/>
+   Due to the exponential decaying amptlitude $2e^{-t}$, each local max/min will be closer to equilibrium than the previous, and so this first positive time for which $x'(t)=0$ will be when the mass is most compressed.  Therefore, $\boxed{\text{the spring is most compressed at } t= \arctan\left( - \frac 1 3 \right) + \pi \approx 2.82}$.<br/><br/>
+<a href="https://www.desmos.com/calculator/noxifebeie">Here is a Desmos link</a>
+ With the "polar trig identity":
+ We can rewrite
+ $$ x(t) = e^{-2t} [ 2\cos t + 2 \sin t ] = \sqrt{8} e^{-2t} \cos\left( t - \frac \pi 4\right).$$
+ since the polar coordinates for $(2,2)$ are $R = \sqrt{2^2 + 2^2} = \sqrt{8}$ and $\tan \theta = \frac 1 1,$ and since $(2,2)$ is in the first quadrant we have $\theta =\arctan(1) = \frac \pi 4.$ Then,
+ $$ x'(t) = -2\sqrt{8}e^{-2t}\cos\left( t - \frac \pi 4\right) - \sqrt{8} e^{-2t} \sin\left( t - \frac \pi 4\right).$$
+ Then, setting to zero we eventually obtain (divide everything by $\sqrt{8}e^{-2t} \neq 0$)
+ $$ -2 \cos\left( t - \frac \pi 4\right) = \sin \left( t - \frac \pi 4\right),$$
+ or 
+ $$ -2 = \tan \left( t - \frac \pi 4\right).$$
+ Then,
+ $$ t - \frac \pi 4 = \arctan(-2) + n \pi,$$
+ and $n=1$ corresponds to the first positive value of $t$, 
+ $$ t = \frac \pi 4 + \arctan(-2) + \pi \approx 2.82,$$
+ which is the same answer we obtained above (looks different but equivalent through trig identities).  As discussed above, this yields the time at which the mass is most compressed.
+ </details>
+</li>
 </ol>
-<p>We set $x'(t) = 0$ (use the expression for $x'(t)$ obtained earlier with $c_2 = 2$) to see
-$$ x'(t) = -6e^{-2t} \sin t - 2e^{-2t} \cos t = 0 \implies -6\sin t = 2\cos t \implies \tan t = -\frac 1 3.$$
-This occurs for $t = \arctan\left( - \frac 1 3 \right) + n\pi$, for $n =1, 2, ...$. (If $n=0$ then $t&lt;0$ is before the mass starts moving.  Remember $- \frac \pi 2 &lt; \arctan(x) &lt; 0$ for $x&lt;0$, and $0 &lt; \arctan(x) &lt; \frac \pi 2$ for $x&gt;0$.)<br/><br/>
-Since the mass starts out stretched ($x(0) = 2&gt;0$) and moving towards equilibrium ($x'(0) = -2 &lt; 0$), the first positive time at which $x'(t)=0$ will correspond to a local minimum.<br/><br/>
-Due to the exponential decaying amptlitude $2e^{-t}$, each local max/min will be closer to equilibrium than the previous, and so this first positive time for which $x'(t)=0$ will be when the mass is most compressed.  Therefore, $\boxed{\text{the spring is most compressed at } t= \arctan\left( - \frac 1 3 \right) + \pi \approx 2.82}$.<br/><br/>
-<a href="https://www.desmos.com/calculator/noxifebeie">Here is a Desmos link</a></p>
-<p>With the "polar trig identity":</p>
-<p>We can rewrite
-$$ x(t) = e^{-2t} [ 2\cos t + 2 \sin t ] = \sqrt{8} e^{-2t} \cos\left( t - \frac \pi 4\right).$$
-since the polar coordinates for $(2,2)$ are $R = \sqrt{2^2 + 2^2} = \sqrt{8}$ and $\tan \theta = \frac 1 1,$ and since $(2,2)$ is in the first quadrant we have $\theta =\arctan(1) = \frac \pi 4.$ Then,
-$$ x'(t) = -2\sqrt{8}e^{-2t}\cos\left( t - \frac \pi 4\right) - \sqrt{8} e^{-2t} \sin\left( t - \frac \pi 4\right).$$
-Then, setting to zero we eventually obtain (divide everything by $\sqrt{8}e^{-2t} \neq 0$)
-$$ -2 \cos\left( t - \frac \pi 4\right) = \sin \left( t - \frac \pi 4\right),$$
-or
-$$ -2 = \tan \left( t - \frac \pi 4\right).$$
-Then,
-$$ t - \frac \pi 4 = \arctan(-2) + n \pi,$$
-and $n=1$ corresponds to the first positive value of $t$,
-$$ t = \frac \pi 4 + \arctan(-2) + \pi \approx 2.82,$$
-which is the same answer we obtained above (looks different but equivalent through trig identities).  As discussed above, this yields the time at which the mass is most compressed.</p>
-
 </li>
 <li><p>Suppose that the mass in a spring-mass-dashpot system with $m = 1, c = 3,$ and $k = 2$ is set in motion (at $t = 0$) with $x(0) = 0$ and $x'(0) = −2$. When $x(t) &gt; 0$ the spring is stretched, and the spring is compressed when $x(t) &lt; 0$.<br/>
 A. Find the position of the mass for all $t &gt; 0$.<br/>
@@ -8020,6 +8020,20 @@ position every $\frac{\pi}{\sqrt{7}}$ seconds (which is half the “psuedo-perio
 </details>
 </li>
 </ol>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=22b80ff0-88e6-42cc-ab64-9f021b594477">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
 </div>
 </div>
 </div>
